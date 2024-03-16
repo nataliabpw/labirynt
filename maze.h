@@ -8,7 +8,7 @@ typedef struct{
 	int r;
 	int c;
 	int n;
-	FILE *m;
+	char *m;
 } maze;
 
 #endif

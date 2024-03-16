@@ -4,6 +4,7 @@
 
 int main( int argc, char **argv){
 	FILE *in = argc>1 ? fopen(argv[1], "r"): NULL;
+	FILE *p;
 	int i;
 	maze m;
 	if (in==NULL){
@@ -17,15 +18,19 @@ int main( int argc, char **argv){
 	m.n=m.r*m.c;
 
 	// Inicjacja macierzy
-	m.m=fopen("p", "w");
-	if (m.m==NULL){
+	m.m="p";
+	p=fopen(m.m, "w");
+	if (p==NULL){
 		fprintf(stderr, "Problem z plikiem preprocesora 1\n");
 		return 1;
 	}
 	for (i=0; i<m.n; i++){
-		fprintf(m.m, "0000\n");
+		fprintf(p, "0000\n");
 	}
-	fclose(m.m);
+	fclose(p);
+
+	// Uzupełnienie macierzy
+	mat_fill( &m, argv[1]);
 
 	return 0;
 }
