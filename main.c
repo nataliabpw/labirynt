@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "maze.h"
 #include "readf.h"
-
+#include "solvemaze.h"
 int main( int argc, char **argv){
 	FILE *in = argc>1 ? fopen(argv[1], "r"): NULL;
 	FILE *p;
@@ -32,5 +32,6 @@ int main( int argc, char **argv){
 	// Uzupełnienie macierzy
 	mat_fill( &m, argv[1]);
 
+	dijkstra();
 	return 0;
 }
