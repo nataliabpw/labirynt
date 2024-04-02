@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "maze.h"
-int checkinput(char* filename);
+int checkinput(char* filename, maze* m);
 
 void read(maze* m);
 
