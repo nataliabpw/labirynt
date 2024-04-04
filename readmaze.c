@@ -16,12 +16,14 @@ int checkinput(char* filename,  maze* m){
 	if (strstr(filename, ".txt") != NULL){
 		//sprawdzamy poprawność pliku txt
 		//printf("sprawdzamy poprawność pliku txt\n");
+		m->inputtype = INPUT_TYPE_TXT_CONST;
 		int result = checkinputTXT(m);
 		return result;
 		
 	} else if (strstr(filename, ".bin") != NULL){
 		//sprawdzamy poprawność pliku bin
 		//printf("sprawdzamy poprawność pliku bin\n");
+		m->inputtype = INPUT_TYPE_BIN_CONST;
 		return FILE_ACCEPTED_CONST;
 		
 	} 
@@ -32,7 +34,15 @@ int checkinput(char* filename,  maze* m){
 }
 
 void read(maze* m){
-
+	switch (m->inputtype){
+	case INPUT_TYPE_TXT_CONST:
+		//odczytujemy z pliku txt
+		readTXT(m);
+		break;
+	case INPUT_TYPE_BIN_CONST:
+		//odczytujemy z pliku bin
+		break;
+	}
 }
 
 int checkpassage(int node_number, int direction, maze* m){

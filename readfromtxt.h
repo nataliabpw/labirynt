@@ -4,4 +4,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 int checkinputTXT(maze* m);
+
+void readTXT(maze* m);
 #endif

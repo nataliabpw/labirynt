@@ -7,6 +7,9 @@ int main( int argc, char **argv){
 	if(resultcheck == FILE_ACCEPTED_CONST){
 		//plik poprawny
 		printf("plik poprawny\n");
+		read(&maze_str);
+		printf("columns: %d, rows: %d\n", maze_str.columns, maze_str.rows);
+		printf("begin: %d, end: %d\n", maze_str.begin, maze_str.end);
 	} else {
 		//plik niepoprawny
 		printf("plik niepoprawny\n");
