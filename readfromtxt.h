@@ -6,4 +6,7 @@
 int checkinputTXT(maze* m);
 
 void readTXT(maze* m);
+
+int checkpassageTXT(int node_number, int direction, maze* m);
+int node_byte(int node_number, maze* m);
 #endif

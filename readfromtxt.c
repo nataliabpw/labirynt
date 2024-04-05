@@ -68,4 +68,61 @@ void readTXT(maze* m){
 	//printf("%d\n", lineNumber);
 	m->rows = lineNumber / 2 - 1;
 }
+int checkpassageTXT(int node_number, int direction, maze* m){
+	FILE* input = m->in;
+	char temp;
+	switch(direction){
+		case DIRECTION_LEFT:
+			//printf("left\n");
+			//printf("node byte: %d\n", node_byte(node_number, m));
+			fseek(input, node_byte(node_number, m)-1, SEEK_SET);
+			temp = fgetc(input);
+			//printf("temp: %c\n", temp);
+			if(temp == ' ' || temp == 'K' || temp == 'P'){
+				printf("yes\n");
+				return PASSAGE_CONST;
+			}else{
+				printf("no\n");
+				return NOT_PASSAGE_CONST;
+			}
+				
+			break;
 
+		case DIRECTION_TOP:
+			printf("top\n");
+			return NOT_PASSAGE_CONST;
+			break;
+		case DIRECTION_RIGHT:
+			//printf("right\n");
+			//printf("node byte: %d\n", node_byte(node_number, m));
+			fseek(input, node_byte(node_number, m)+1, SEEK_SET);
+			temp = fgetc(input);
+			//printf("temp: %c\n", temp);
+			if(temp == ' ' || temp == 'K' || temp == 'P'){
+				printf("yes\n");
+				return PASSAGE_CONST;
+			}else{
+				printf("no\n");
+				return NOT_PASSAGE_CONST;
+			}
+				
+			break;
+		case DIRECTION_BOTTOM:
+			printf("bottom\n");
+			return NOT_PASSAGE_CONST;
+			break;
+	}
+	//nieznana wartość direction
+	return NOT_PASSAGE_CONST;
+}
+int node_byte(int node_number, maze* m){
+	int lines = ((node_number/m->columns) + 1);
+	//printf("lines: %d\n", lines);
+	int binl = (m->columns*2) + 1;
+	//printf("binl: %d\n", binl);
+	int full = ((lines*2) - 1)*binl + (lines-1)*2;
+	//printf("full: %d\n", full);
+	int add = node_number - ((lines-1)*m->columns);
+	//printf("add: %d\n", add);
+	return (full + (add*2));
+}

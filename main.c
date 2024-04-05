@@ -10,6 +10,8 @@ int main( int argc, char **argv){
 		read(&maze_str);
 		printf("columns: %d, rows: %d\n", maze_str.columns, maze_str.rows);
 		printf("begin: %d, end: %d\n", maze_str.begin, maze_str.end);
+		checkpassage(1, DIRECTION_RIGHT, &maze_str);
+		checkpassage(3, DIRECTION_LEFT, &maze_str);
 	} else {
 		//plik niepoprawny
 		printf("plik niepoprawny\n");
