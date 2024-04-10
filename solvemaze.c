@@ -1,6 +1,7 @@
 #include "maze.h"
 #include "path.h"
 #include "readmaze.h"
+#include "solvemaze.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -46,6 +47,9 @@ void solve( maze * m, path * p){
 	int q_max_len;
 	int v_len;
 	int pred_len;
+	m->begin--;
+	m->end--;
+	//inicjacja path
 	v_len = (m->columns)*(m->rows)/30 + 1;
 	p->visited = calloc(v_len, sizeof(int));
 	pred_len = (m->columns)*(m->rows)/15 + 1;
@@ -63,8 +67,14 @@ void solve( maze * m, path * p){
 	while (q_len > 0){
 		curr_node = p->queue[0];
 		for (i=0; i<4; i++){ //i - położenie next_node względem curr_node
-			if (checkpassage(curr_node, i, m) == 1){
-				if (i == 0)
+			printf("node: %d dir: %d\n", curr_node+1, i+20);
+			if (checkpassage(curr_node+1, i+20, m) == 10){
+				if (curr_node==m->end && i==2)
+					continue;
+				if (curr_node==m->begin && i==0)
+					continue;
+				printf("ok\n");
+				if (i==0)
 					next_node = curr_node - 1;
 				if (i==1)
 					next_node = curr_node - (m->columns);
@@ -72,7 +82,7 @@ void solve( maze * m, path * p){
 					next_node = curr_node + 1;
 				if (i==3)
 					next_node = curr_node + (m->columns);
-				location = (i+2) % 4; //położenie poprzednika(curr_node) względem next_node
+				location = (i+2)%4; //położenie poprzednika(curr_node) względem next_node
 				if (check_if_visited( next_node, p->visited) == 0){
 					p->queue[q_len++] = next_node;
 					mark_as_visited( next_node, p->visited);
@@ -82,15 +92,13 @@ void solve( maze * m, path * p){
 					break;
 			}
 		}
-		if (next_node == (m->end))
+		if (next_node == (m->begin))
 			break;
 
 		//usun queue[0]
 		for (i=0; i<q_len; i++)
 			p->queue[i]=p->queue[i+1];
-		
 		q_len--;
-		p->queue[q_len]=-1;
 	}				
 	free(p->queue);
 }
