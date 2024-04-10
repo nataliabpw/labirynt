@@ -10,22 +10,23 @@ int checkinputBIN(maze* m){
 void readBIN(maze* m){
 	FILE* input = m->in;
 	
+	//FILE ID
 	int temp;
 	fread(&temp, 4, 1, input);
-	//printf("file id: %d\n", temp);
+
+	//ESCAPE
 	temp = 0;
 	fread(&temp, 1, 1, input);
-	//printf("escape: %d\n", temp);
 	
+	//COLUMNS AND ROWS
 	temp = 0;
 	fread(&temp, 2, 1, input);
-	//printf("columns: %d\n", temp);
 	m->columns = (temp-1)/2;
 	temp = 0;
 	fread(&temp, 2, 1, input);
-	//printf("lines: %d\n", temp);
 	m->rows = (temp-1)/2;
 	
+	//ENTRYX AND ENTRYY
 	int entryX, entryY;
 	temp = 0;
 	fread(&temp, 2, 1, input);
@@ -33,9 +34,9 @@ void readBIN(maze* m){
 	temp = 0;
 	fread(&temp, 2, 1, input);
 	entryY = temp;
-	//printf("entryx: %d, entryy: %d\n", entryX, entryY);
 	m->begin =  ((entryY/2)-1)*m->columns + (entryX/2) + 1;
 	
+	//EXITX AND EXITY
 	int exitX, exitY;
 	temp = 0;
 	fread(&temp, 2, 1, input);
@@ -43,10 +44,8 @@ void readBIN(maze* m){
 	temp = 0;
 	fread(&temp, 2, 1, input);
 	exitY = temp;
-	//printf("exitx: %d, exity: %d\n", exitX, exitY);
 	m->end =  ((exitY/2)-1)*m->columns + (exitX/2);
 	
-	//tego chyba nie musimy używać
 	//reserved
 	temp = 0;
 	fread(&temp, 12, 1, input);
@@ -73,7 +72,6 @@ void readBIN(maze* m){
 	//path
 	temp = 0;
 	fread(&temp, 1, 1, input);
-	//printf("path: '%c'\n", temp);
 }
 
 typedef struct{
@@ -120,7 +118,6 @@ int checkpassageBIN(int node_number, int direction, maze* m){
 		case DIRECTION_LEFT:
 			symbolToCheck = value_number(node_number, m) - 1; // - 1 bo jedziemy na lewo
 			actualSymbol = 0;
-			//printf("%d\n", symbolToCheck);
 			while(actualSymbol < symbolToCheck){
 				readCodeWord(&codeWord, input);
 				actualSymbol += 1 + codeWord.count;
@@ -134,7 +131,6 @@ int checkpassageBIN(int node_number, int direction, maze* m){
 			symbolToCheck = value_number(node_number, m);
 			symbolToCheck = symbolToCheck - (m->columns*2) - 1;
 			actualSymbol = 0;
-			//printf("%d\n", symbolToCheck);
 			while(actualSymbol < symbolToCheck){
 				readCodeWord(&codeWord, input);
 				actualSymbol += 1 + codeWord.count;
@@ -147,7 +143,6 @@ int checkpassageBIN(int node_number, int direction, maze* m){
 		case DIRECTION_RIGHT:
 			symbolToCheck = value_number(node_number, m) + 1; // + 1 bo jedziemy na lewo
 			actualSymbol = 0;
-			//printf("%d\n", symbolToCheck);
 			while(actualSymbol < symbolToCheck){
 				readCodeWord(&codeWord, input);
 				actualSymbol += 1 + codeWord.count;
@@ -161,7 +156,6 @@ int checkpassageBIN(int node_number, int direction, maze* m){
 			symbolToCheck = value_number(node_number, m);
 			symbolToCheck = symbolToCheck + (m->columns*2) + 1;
 			actualSymbol = 0;
-			//printf("%d\n", symbolToCheck);
 			while(actualSymbol < symbolToCheck){
 				readCodeWord(&codeWord, input);
 				actualSymbol += 1 + codeWord.count;
@@ -172,13 +166,6 @@ int checkpassageBIN(int node_number, int direction, maze* m){
 			return PASSAGE_CONST;
 			break;
 	}
-	
-	
-	/*printf("separator = %c\n",codeWord.separator);
-	printf("value = %c\n",codeWord.value);
-	printf("count = %d\n",codeWord.count);
-	*/
-	
 	return NOT_PASSAGE_CONST;
 }
 

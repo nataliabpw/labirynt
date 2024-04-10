@@ -15,6 +15,7 @@ int main( int argc, char **argv){
 		
 		//przykład sprawdzenia prejść:
 		
+		/*
 		if (checkpassage(518, DIRECTION_LEFT, &maze_str) == PASSAGE_CONST){
 			printf("prejście na lewo jest\n");
 		} else{
@@ -35,6 +36,7 @@ int main( int argc, char **argv){
 		} else{
 			printf("przejścia w dół nie ma\n");
 		};
+		*/
 		
 		
 	} else {
