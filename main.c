@@ -14,27 +14,28 @@ int main( int argc, char **argv){
 		printf("begin: %d, end: %d\n", maze_str.begin, maze_str.end);
 		
 		//przykład sprawdzenia prejść:
-		if (checkpassage(8, DIRECTION_LEFT, &maze_str) == PASSAGE_CONST){
+		
+		if (checkpassage(518, DIRECTION_LEFT, &maze_str) == PASSAGE_CONST){
 			printf("prejście na lewo jest\n");
 		} else{
 			printf("przejścia na lewo nie ma\n");
 		};
-		if (checkpassage(8, DIRECTION_TOP, &maze_str) == PASSAGE_CONST){
+		if (checkpassage(518, DIRECTION_TOP, &maze_str) == PASSAGE_CONST){
 			printf("prejście w górę jest\n");
 		} else{
 			printf("przejścia w górę nie ma\n");
 		};
-		if (checkpassage(8, DIRECTION_RIGHT, &maze_str) == PASSAGE_CONST){
+		if (checkpassage(518, DIRECTION_RIGHT, &maze_str) == PASSAGE_CONST){
 			printf("prejście na prawo jest\n");
 		} else{
 			printf("przejścia na prawo nie ma\n");
 		};
-		if (checkpassage(8, DIRECTION_BOTTOM, &maze_str) == PASSAGE_CONST){
+		if (checkpassage(518, DIRECTION_BOTTOM, &maze_str) == PASSAGE_CONST){
 			printf("prejście w dół jest\n");
 		} else{
 			printf("przejścia w dół nie ma\n");
 		};
-
+		
 		
 	} else {
 		//plik niepoprawny

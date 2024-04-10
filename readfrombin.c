@@ -63,19 +63,121 @@ void readBIN(maze* m){
 	//separator
 	temp = 0;
 	fread(&temp, 1, 1, input);
-	printf("separator: '%c'\n", temp);
+	//printf("separator: '%c'\n", temp);
 	
 	//wall
 	temp = 0;
 	fread(&temp, 1, 1, input);
-	printf("wall: '%c'\n", temp);
+	//printf("wall: '%c'\n", temp);
 	
 	//path
 	temp = 0;
 	fread(&temp, 1, 1, input);
-	printf("path: '%c'\n", temp);
+	//printf("path: '%c'\n", temp);
+}
+
+typedef struct{
+	int separator;
+	int value;
+	int count;
+} code_word_str;
+
+void readCodeWord(code_word_str *codeWord, FILE* input){
+	
+	//separator
+	int temp = 0;
+	fread(&temp, 1, 1, input);
+	codeWord->separator = temp;
+	
+	//value
+	temp = 0;
+	fread(&temp, 1, 1, input);
+	codeWord->value = temp;
+	
+	//count
+	temp = 0;
+	fread(&temp, 1, 1, input);
+	codeWord->count = temp;
+	
+}
+int value_number(int node_number, maze* m){
+	int lines = (((node_number-1)/m->columns) + 1);
+	int binl = (m->columns*2) + 1;
+	int full = ((lines*2) - 1)*binl;
+	int add = node_number - ((lines-1)*m->columns);
+	return (full + (add*2));
 }
 int checkpassageBIN(int node_number, int direction, maze* m){
+	
+	code_word_str codeWord = {0, 0, 0};
+	
+	FILE* input = m->in;
+	
+	fseek(input, 40, SEEK_SET); //przehodzimy na początek sekcji "słowa kodowe"
+	int symbolToCheck;
+	int actualSymbol;
+	switch (direction){
+		case DIRECTION_LEFT:
+			symbolToCheck = value_number(node_number, m) - 1; // - 1 bo jedziemy na lewo
+			actualSymbol = 0;
+			//printf("%d\n", symbolToCheck);
+			while(actualSymbol < symbolToCheck){
+				readCodeWord(&codeWord, input);
+				actualSymbol += 1 + codeWord.count;
+			}
+			if(codeWord.value == 'X'){
+				return NOT_PASSAGE_CONST;
+			}
+			return PASSAGE_CONST;
+			break;
+		case DIRECTION_TOP:
+			symbolToCheck = value_number(node_number, m);
+			symbolToCheck = symbolToCheck - (m->columns*2) - 1;
+			actualSymbol = 0;
+			//printf("%d\n", symbolToCheck);
+			while(actualSymbol < symbolToCheck){
+				readCodeWord(&codeWord, input);
+				actualSymbol += 1 + codeWord.count;
+			}
+			if(codeWord.value == 'X'){
+				return NOT_PASSAGE_CONST;
+			}
+			return PASSAGE_CONST;
+			break;
+		case DIRECTION_RIGHT:
+			symbolToCheck = value_number(node_number, m) + 1; // + 1 bo jedziemy na lewo
+			actualSymbol = 0;
+			//printf("%d\n", symbolToCheck);
+			while(actualSymbol < symbolToCheck){
+				readCodeWord(&codeWord, input);
+				actualSymbol += 1 + codeWord.count;
+			}
+			if(codeWord.value == 'X'){
+				return NOT_PASSAGE_CONST;
+			}
+			return PASSAGE_CONST;
+			break;
+		case DIRECTION_BOTTOM:
+			symbolToCheck = value_number(node_number, m);
+			symbolToCheck = symbolToCheck + (m->columns*2) + 1;
+			actualSymbol = 0;
+			//printf("%d\n", symbolToCheck);
+			while(actualSymbol < symbolToCheck){
+				readCodeWord(&codeWord, input);
+				actualSymbol += 1 + codeWord.count;
+			}
+			if(codeWord.value == 'X'){
+				return NOT_PASSAGE_CONST;
+			}
+			return PASSAGE_CONST;
+			break;
+	}
+	
+	
+	/*printf("separator = %c\n",codeWord.separator);
+	printf("value = %c\n",codeWord.value);
+	printf("count = %d\n",codeWord.count);
+	*/
 	
 	return NOT_PASSAGE_CONST;
 }
