@@ -27,8 +27,8 @@ int main( int argc, char **argv){
 		} else{
 			printf("przejścia na lewo nie ma\n");
 		};
-    
-    solve(&maze_str, &p);
+    		*/
+    		solve(&maze_str, &p);
 		print_pathh( &p, &maze_str);	
 		
 	} else {

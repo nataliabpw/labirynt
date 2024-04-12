@@ -13,7 +13,7 @@ void path_init(path * p, maze * m){
 
 	v_len = (m->columns)*(m->rows) / N_VISITED + 1;
 	pred_len = (m->columns)*(m->rows) / N_PREDECESSORS + 1;
-	q_max_len = (m->columns + m->rows) * 2;
+	q_max_len = m->columns > m->rows ? m->columns * 3 : m->rows * 3;
 
 	p->visited = calloc(v_len, sizeof(int));
 	p->predecessors = calloc(pred_len, sizeof(int));
@@ -64,7 +64,7 @@ void solve( maze * m, path * p){
 	int q_len;
 	m->begin--;
 	m->end--;
-
+	
 	//inicjacja path
 	path_init(p, m);
 
@@ -84,6 +84,8 @@ void solve( maze * m, path * p){
 					next_node = curr_node + 1;
 				if (i==DIRECTION_BOTTOM)
 					next_node = curr_node + (m->columns);
+				if (next_node > (m->end))
+					continue;
 				direction = 20 + (i+2)%4; //położenie poprzednika(curr_node) względem next_node
 				if (check_if_visited( next_node, p->visited) == 0){
 					p->queue[q_len++] = next_node;
@@ -101,6 +103,7 @@ void solve( maze * m, path * p){
 		for (i=0; i<q_len; i++)
 			p->queue[i]=p->queue[i+1];
 		q_len--;
+		
 	}				
 	free(p->queue);
 	free(p->visited);
