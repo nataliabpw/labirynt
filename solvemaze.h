@@ -5,6 +5,7 @@
 #include "path.h"
 #include <stdio.h>
 
+void path_init(path * p, maze * m);
 int power_of_two( int power);
 void mark_as_visited( int node_number, int * visited);
 int check_if_visited( int node_number, int * visited);

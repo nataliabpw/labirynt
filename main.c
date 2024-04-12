@@ -42,7 +42,7 @@ int main( int argc, char **argv){
 		};
 
 		solve(&maze_str, &p);
-		print_pathh( &p, maze_str.columns, maze_str.begin, maze_str.end);	
+		print_pathh( &p, &maze_str);	
 		
 	} else {
 		//plik niepoprawny

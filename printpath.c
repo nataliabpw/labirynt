@@ -1,64 +1,67 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "path.h"
 #include "printpath.h"
+#include "maze.h"
 
-int location( int * predecessors, int node_number){
-	int p_id = node_number / 15;
-	int bit = (node_number % 15) * 2;
-	int l = 0;
+int direction( int * predecessors, int node_number){
+	int p_id = node_number / N_PREDECESSORS;
+	int bit = (node_number % N_PREDECESSORS) * 2;
+	int d = DIRECTION_LEFT;
 	if ((predecessors[p_id] & (1 << bit)) != 0) //sprawdza bit
-		l++;
+		d++;
 	if ((predecessors[p_id] & (1 << (bit + 1))) != 0) //sprawdza bit + 1
-		l+=2;
-	return l;
+		d+=2;
+	return d;
 }
 
-int predecessor_number( int node_number, int location, int columns){
-	if (location == 0)
+int predecessor_number( int node_number, int direction, int columns){
+	if (direction == DIRECTION_LEFT)
 		return node_number - 1;
-	if (location == 1)
+	if (direction == DIRECTION_TOP)
 		return node_number - columns;
-	if (location == 2)
+	if (direction == DIRECTION_RIGHT)
 		return node_number + 1;
-	if (location == 3)
+	if (direction == DIRECTION_BOTTOM)
 		return node_number + columns;
 }
 
-void print_pathh( path * p, int columns, int begin, int end){
-	int curr_node = begin;
+void print_pathh( path * p, maze * m){
+	int curr_node = m->begin;
 	int next_node;
-	int pom;
-	int node_count = 0;
-	int curr_direction;
+	int curr_direction = DIRECTION_RIGHT;
 	int next_direction;
-	int i;
 	int print_count = 0;
-	int czy_print=0;
+	int i;
 
-	curr_direction = location(p->predecessors, curr_node);
-	next_node = predecessor_number(curr_node, curr_direction, columns);
-	curr_node=next_node;
-	node_count++;
-	print_count++;
-
-	while (curr_node!=end){
-		next_direction=location(p->predecessors, curr_node);
-		next_node = predecessor_number(curr_node, next_direction, columns);
-		print_count++;
-		czy_print=0;
-		if (curr_direction!=next_direction){
-			czy_print=1;
-			printf("FORWARD  %d\n", print_count-1);
-			if (next_direction==curr_direction+1 || next_direction==curr_direction-3)
-				printf("TURNRIGHT\n");
-			if (next_direction==curr_direction-1 || next_direction==curr_direction+3)
-				printf("TURNLEFT\n");
-			print_count=1;
-		}
-		curr_direction=next_direction;
-		curr_node=next_node;
-		node_count++;
+	next_direction = direction(p->predecessors, curr_node);
+	if (curr_direction != next_direction){
+		if (next_direction == curr_direction + 1 || next_direction == curr_direction - 3)
+			printf("TURNRIGHT\n");
+		if (next_direction == curr_direction - 1 || next_direction == curr_direction + 3)
+			printf("TURNLEFT\n");
+		
 	}
-	if (czy_print==0)
-		printf("FORWARD %d\n", print_count);
+	curr_direction = next_direction;
+	next_node = predecessor_number(curr_node, curr_direction, m->columns);
+	print_count++;
+	curr_node = next_node;
+
+	while (curr_node != m->end){
+		next_direction = direction(p->predecessors, curr_node);
+		next_node = predecessor_number(curr_node, next_direction, m->columns);
+		print_count++;
+		if (curr_direction != next_direction){
+			printf("FORWARD %d\n", print_count - 1);
+			if (next_direction == curr_direction + 1 || next_direction == curr_direction - 3)
+				printf("TURNRIGHT\n");
+			if (next_direction == curr_direction - 1 || next_direction == curr_direction + 3)
+				printf("TURNLEFT\n");
+			print_count = 1;
+		}
+		curr_direction = next_direction;
+		curr_node = next_node;
+	}
+	printf("FORWARD %d\n", print_count);
+	free(p->predecessors);
 }
