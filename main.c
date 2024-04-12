@@ -36,7 +36,7 @@ int main( int argc, char **argv){
 		read(&maze_str);
 		printf("columns: %d, rows: %d\n", maze_str.columns, maze_str.rows);
 		printf("begin: %d, end: %d\n", maze_str.begin, maze_str.end);
-    		solve(&maze_str, &p);
+  	solve(&maze_str, &p);
 		print_pathh( &p, &maze_str);	
 		
 	} else {
