@@ -10,11 +10,14 @@
 #define DIRECTION_TOP 21
 #define DIRECTION_RIGHT 22
 #define DIRECTION_BOTTOM 23
+
+#include <stdio.h>
+
 typedef struct{
 	FILE* in;
 	int inputtype;
-	int begin; //numer komurki początkowej
-	int end; //numer komurki końcowej
+	int begin; //numer komórki początkowej
+	int end; //numer komórki końcowej
 	int columns;
 	int rows;
 } maze;
