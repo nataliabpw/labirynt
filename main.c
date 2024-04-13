@@ -36,8 +36,18 @@ int main( int argc, char **argv){
 		read(&maze_str);
 		printf("columns: %d, rows: %d\n", maze_str.columns, maze_str.rows);
 		printf("begin: %d, end: %d\n", maze_str.begin, maze_str.end);
-  	solve(&maze_str, &p);
-		print_pathh( &p, &maze_str);	
+		
+		//przykład sprawdzenia prejść:
+
+		/*
+		if (checkpassage(518, DIRECTION_LEFT, &maze_str) == PASSAGE_CONST){
+			printf("prejście na lewo jest\n");
+		} else{
+			printf("przejścia na lewo nie ma\n");
+		};
+    		*/
+    		solve(&maze_str, &p);
+		print_path( &p, &maze_str);
 		
 	} else {
 		//plik niepoprawny
