@@ -29,7 +29,7 @@ int main( int argc, char **argv){
 		};
     		*/
     		solve(&maze_str, &p);
-		print_pathh( &p, &maze_str);	
+		print_path( &p, &maze_str);	
 		
 	} else {
 		//plik niepoprawny
