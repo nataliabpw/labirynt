@@ -112,7 +112,9 @@ int solve( maze * m, path * p){
 	}
 	free(p->queue);
 	free(p->visited);
-	if (solved == 0)
+	if (solved == 0){
+		free(p->predecessors);
 		return 1;
+	}
 	return 0;
 }
