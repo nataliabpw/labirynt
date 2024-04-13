@@ -35,13 +35,14 @@ int begin_direction( int columns, int begin){
 		return DIRECTION_BOTTOM;
 }
 
-void turn( int curr_direction, int next_direction){
+void turn( int curr_direction, int next_direction, FILE * out){
 	if (next_direction == curr_direction + 1 || next_direction == curr_direction - 3)
-		printf("TURNRIGHT\n");
-	if (next_direction == curr_direction - 1 || next_direction == curr_direction + 3)		printf("TURNLEFT\n");
+		fprintf(out, "TURNRIGHT\n");
+	if (next_direction == curr_direction - 1 || next_direction == curr_direction + 3)
+		fprintf(out, "TURNLEFT\n");
 }
 
-void print_path( path * p, maze * m){
+void print_path( path * p, maze * m, FILE * out){
 	int curr_node = m->begin;
 	int next_node;
 	int default_direction = begin_direction( m->columns, m->begin);
@@ -50,11 +51,11 @@ void print_path( path * p, maze * m){
 	int print_count = 1;
 	int i;
 
-	printf("START\n");
+	fprintf(out, "START\n");
 	next_direction = direction(p->predecessors, curr_node);
 	if (curr_direction != next_direction){
-		printf("FORWARD %d\n", print_count);
-		turn(curr_direction, next_direction);
+		fprintf(out,"FORWARD %d\n", print_count);
+		turn(curr_direction, next_direction, out);
 		print_count = 0;
 	}
 	curr_direction = next_direction;
@@ -67,8 +68,8 @@ void print_path( path * p, maze * m){
 		next_node = predecessor_number(curr_node, next_direction, m->columns);
 		print_count++;
 		if (curr_direction != next_direction){
-			printf("FORWARD %d\n", print_count - 1);
-			turn(curr_direction, next_direction);
+			fprintf(out, "FORWARD %d\n", print_count - 1);
+			turn(curr_direction, next_direction, out);
 			print_count = 1;
 		}
 		curr_direction = next_direction;
@@ -77,11 +78,11 @@ void print_path( path * p, maze * m){
 	next_direction = default_direction;
 	print_count++;
 	if (curr_direction != next_direction){
-		printf("FORWARD %d\n", print_count - 1);
-		turn(curr_direction, next_direction);
+		fprintf(out, "FORWARD %d\n", print_count - 1);
+		turn(curr_direction, next_direction, out);
 		print_count = 1;
 	}
-	printf("FORWARD %d\n", print_count);
-	printf("STOP\n");
+	fprintf(out, "FORWARD %d\n", print_count);
+	fprintf(out, "STOP\n");
 	free(p->predecessors);
 }

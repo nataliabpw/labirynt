@@ -7,9 +7,10 @@
 #include "checkparams.h"
 #include <stdbool.h>
 int main( int argc, char **argv){
-
+	FILE * out;
 	params_str params = {false, "", "", false};
 	checkparams(&params, argc, argv);
+
 	if (params.help == true){
 		printf("HELP!\n");
 		return 0;
@@ -22,6 +23,11 @@ int main( int argc, char **argv){
 	
 	if (params.outputToFile == true){
 		printf("ścieżka będzie zapisana do pliku: %s\n", params.fileName);
+		out = fopen(params.fileName, "w");
+		if (out == NULL)
+			fprintf(stderr, "Nie mogę pisać do pliku %s\n", params.fileName);
+	} else{
+		out = stdout;
 	}
 	
 	char* inputFileName = params.inputFileName;
@@ -46,8 +52,11 @@ int main( int argc, char **argv){
 			printf("przejścia na lewo nie ma\n");
 		};
     		*/
-    		solve(&maze_str, &p);
-		print_path( &p, &maze_str);
+    		if (solve(&maze_str, &p) == 1){
+			printf("Brak ścieżki we wczytanym labiryncie\n");
+			return 0;
+		}
+		print_path( &p, &maze_str, out);
 		
 	} else {
 		//plik niepoprawny

@@ -10,6 +10,6 @@ int power_of_two( int power);
 void mark_as_visited( int node_number, int * visited);
 int check_if_visited( int node_number, int * visited);
 void set_predecessor( int node_number, int direction, int * predecessors);
-void solve( maze * m, path * p);
+int solve( maze * m, path * p);
 
 #endif

@@ -56,12 +56,13 @@ void set_predecessor( int node_number, int direction, int * predecessors){
 		predecessors[p_id] += power_of_two(power+1);
 }
 
-void solve( maze * m, path * p){
+int solve( maze * m, path * p){
 	int direction;
 	int i, j;
 	int curr_node;
 	int next_node;
 	int q_len;
+	int solved = 0;
 	m->begin--;
 	m->end--;
 	
@@ -92,19 +93,26 @@ void solve( maze * m, path * p){
 					mark_as_visited( next_node, p->visited);
 					set_predecessor( next_node, direction, p->predecessors);
 				}
-				if (next_node == (m->begin))
+				if (next_node == (m->begin)){
+					solved = 1;
 					break;
+				}
 			}
 		}
-		if (next_node == (m->begin))
+		if (next_node == (m->begin)){
+			solved = 1;
 			break;
+		}
 
 		//usun queue[0]
 		for (i=0; i<q_len; i++)
 			p->queue[i]=p->queue[i+1];
 		q_len--;
 		
-	}				
+	}
 	free(p->queue);
 	free(p->visited);
+	if (solved == 0)
+		return 1;
+	return 0;
 }
