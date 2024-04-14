@@ -42,16 +42,6 @@ int main( int argc, char **argv){
 		read(&maze_str);
 		printf("columns: %d, rows: %d\n", maze_str.columns, maze_str.rows);
 		printf("begin: %d, end: %d\n", maze_str.begin, maze_str.end);
-		
-		//przykład sprawdzenia prejść:
-
-		/*
-		if (checkpassage(518, DIRECTION_LEFT, &maze_str) == PASSAGE_CONST){
-			printf("prejście na lewo jest\n");
-		} else{
-			printf("przejścia na lewo nie ma\n");
-		};
-    		*/
     		if (solve(&maze_str, &p) == 1){
 			printf("Brak ścieżki we wczytanym labiryncie\n");
 			return 0;
