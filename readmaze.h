@@ -7,7 +7,6 @@ int checkinput(char* filename, maze* m);
 
 void read(maze* m);
 
-int checkpassage(int node_number, int direction, maze* m);
-
+int checkpassage(int node_number, int direction, maze* m, unsigned char * buffer, int bufsize);
 
 #endif

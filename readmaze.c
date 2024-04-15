@@ -52,7 +52,7 @@ void read(maze* m){
 	}
 }
 
-int checkpassage(int node_number, int direction, maze* m){
+int checkpassage(int node_number, int direction, maze* m, unsigned char * buffer, int bufsize){
 	switch (m->inputtype){
 	case INPUT_TYPE_TXT_CONST:
 		//sprawdzamy przejście w pliku txt
@@ -60,7 +60,7 @@ int checkpassage(int node_number, int direction, maze* m){
 		break;
 	case INPUT_TYPE_BIN_CONST:
 		//sprawdzamy przejście w pliku bin
-		return checkpassageBIN(node_number, direction, m);
+		return checkpassageBIN(node_number, direction, m, buffer, bufsize);
 		break;
 	}
 	return 0;

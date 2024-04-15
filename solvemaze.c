@@ -63,6 +63,10 @@ int solve( maze * m, path * p){
 	int next_node;
 	int q_len;
 	int solved = 0;
+
+	int bufsize = (m->columns+m->rows) * 9;
+	unsigned char *buffer = malloc(bufsize);
+
 	m->begin--;
 	m->end--;
 	
@@ -76,7 +80,7 @@ int solve( maze * m, path * p){
 	while (q_len > 0){
 		curr_node = p->queue[0];
 		for (i=DIRECTION_LEFT; i<=DIRECTION_BOTTOM; i++){ //położenie next_node względem curr_node
-			if (checkpassage(curr_node+1, i, m) == PASSAGE_CONST){
+			if (checkpassage(curr_node+1, i, m, buffer, bufsize) == PASSAGE_CONST){
 				if (i==DIRECTION_LEFT)
 					next_node = curr_node - 1;
 				if (i==DIRECTION_TOP)
@@ -110,6 +114,7 @@ int solve( maze * m, path * p){
 		q_len--;
 		
 	}
+	free(buffer);
 	free(p->queue);
 	free(p->visited);
 	if (solved == 0){

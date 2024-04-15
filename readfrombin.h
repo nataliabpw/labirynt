@@ -7,6 +7,6 @@ int checkinputBIN(maze* m);
 
 void readBIN(maze* m);
 
-int checkpassageBIN(int node_number, int direction, maze* m);
+int checkpassageBIN(int node_number, int direction, maze* m, unsigned char * buffer, int bufsize);
 
 #endif
