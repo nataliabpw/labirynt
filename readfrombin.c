@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "maze.h"
 #include "readfrombin.h"
+#define BUFSIZE 3
 //funkcja zwraca FILE_ACCEPTED_CONST, jeżeli plik jest poprawny
 int checkinputBIN(maze* m){
 	return FILE_ACCEPTED_CONST;
@@ -80,23 +81,11 @@ typedef struct{
 	int count;
 } code_word_str;
 
-void readCodeWord(code_word_str *codeWord, FILE* input){
-	
-	//separator
-	int temp = 0;
-	fread(&temp, 1, 1, input);
-	codeWord->separator = temp;
-	
-	//value
-	temp = 0;
-	fread(&temp, 1, 1, input);
-	codeWord->value = temp;
-	
-	//count
-	temp = 0;
-	fread(&temp, 1, 1, input);
-	codeWord->count = temp;
-	
+void readCodeWord(code_word_str *codeWord, FILE* input, unsigned char * buffer){
+	fread(buffer,1,3,input);
+	codeWord->separator = buffer[0];
+	codeWord->value = buffer[1];
+	codeWord->count = buffer[2];
 }
 int value_number(int node_number, maze* m){
 	int lines = (((node_number-1)/m->columns) + 1);
@@ -108,6 +97,8 @@ int value_number(int node_number, maze* m){
 int checkpassageBIN(int node_number, int direction, maze* m){
 	
 	code_word_str codeWord = {0, 0, 0};
+
+	unsigned char *buffer = malloc(3);
 	
 	FILE* input = m->in;
 	
@@ -119,9 +110,10 @@ int checkpassageBIN(int node_number, int direction, maze* m){
 			symbolToCheck = value_number(node_number, m) - 1; // - 1 bo jedziemy na lewo
 			actualSymbol = 0;
 			while(actualSymbol < symbolToCheck){
-				readCodeWord(&codeWord, input);
+				readCodeWord(&codeWord, input, buffer);
 				actualSymbol += 1 + codeWord.count;
 			}
+			free(buffer);
 			if(codeWord.value == 'X'){
 				return NOT_PASSAGE_CONST;
 			}
@@ -132,9 +124,10 @@ int checkpassageBIN(int node_number, int direction, maze* m){
 			symbolToCheck = symbolToCheck - (m->columns*2) - 1;
 			actualSymbol = 0;
 			while(actualSymbol < symbolToCheck){
-				readCodeWord(&codeWord, input);
+				readCodeWord(&codeWord, input, buffer);
 				actualSymbol += 1 + codeWord.count;
 			}
+			free(buffer);
 			if(codeWord.value == 'X'){
 				return NOT_PASSAGE_CONST;
 			}
@@ -144,9 +137,10 @@ int checkpassageBIN(int node_number, int direction, maze* m){
 			symbolToCheck = value_number(node_number, m) + 1; // + 1 bo jedziemy na lewo
 			actualSymbol = 0;
 			while(actualSymbol < symbolToCheck){
-				readCodeWord(&codeWord, input);
+				readCodeWord(&codeWord, input, buffer);
 				actualSymbol += 1 + codeWord.count;
 			}
+			free(buffer);
 			if(codeWord.value == 'X'){
 				return NOT_PASSAGE_CONST;
 			}
@@ -157,16 +151,16 @@ int checkpassageBIN(int node_number, int direction, maze* m){
 			symbolToCheck = symbolToCheck + (m->columns*2) + 1;
 			actualSymbol = 0;
 			while(actualSymbol < symbolToCheck){
-				readCodeWord(&codeWord, input);
+				readCodeWord(&codeWord, input, buffer);
 				actualSymbol += 1 + codeWord.count;
 			}
+			free(buffer);
 			if(codeWord.value == 'X'){
 				return NOT_PASSAGE_CONST;
 			}
 			return PASSAGE_CONST;
 			break;
 	}
+	free(buffer);
 	return NOT_PASSAGE_CONST;
 }
-
-
