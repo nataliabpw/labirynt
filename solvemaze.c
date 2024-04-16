@@ -92,7 +92,7 @@ int solve( maze * m, path * p){
 				}
 				if (next_node >= (m->columns)*(m->rows))
 					continue;
-				direction = 20 + (i+2)%4; //położenie poprzednika(curr_node) względem next_node
+				direction = DIRECTION_LEFT + (i+2)%4; //położenie poprzednika(curr_node) względem next_node
 				if (check_if_visited( next_node, p->visited) == 0){
 					p->queue[q_len++] = next_node;
 					mark_as_visited( next_node, p->visited);

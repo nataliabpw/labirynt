@@ -46,6 +46,9 @@ int main( int argc, char **argv){
 		printf("begin: %d, end: %d\n", maze_str.begin, maze_str.end);
     		if (solve(&maze_str, &p) == 1){
 			printf("Brak ścieżki we wczytanym labiryncie\n");
+			if (params.outputToFile == true)
+				fclose(out);
+			fclose(maze_str.in);
 			return 0;
 		}
 		print_path( &p, &maze_str, out);
@@ -54,5 +57,9 @@ int main( int argc, char **argv){
 		//plik niepoprawny
 		printf("plik niepoprawny\n");
 	}
+	if (params.outputToFile == true)
+		fclose(out);
+	if (maze_str.in != NULL)
+		fclose(maze_str.in);
 	return 0;
 }
