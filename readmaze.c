@@ -10,7 +10,7 @@ int checkinput(char* filename,  maze* m){
 	FILE *in = fopen(filename, "r");
 	//sprawdzamy czy plik istnieje
 	if (in == NULL){
-		//plik nie istnieje
+		printf("plik nie istnieje\n");
 		return FILE_NOT_ACCEPTED_CONST;
 	}
 	
@@ -34,6 +34,7 @@ int checkinput(char* filename,  maze* m){
 		
 	} 
 	//plik ma format nieobsługiwany
+	printf("Plik ma nieobsługiwany format\n");
 	return FILE_NOT_ACCEPTED_CONST;
 	
 	

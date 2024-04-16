@@ -12,7 +12,9 @@ int main( int argc, char **argv){
 	checkparams(&params, argc, argv);
 
 	if (params.help == true){
-		printf("HELP!\n");
+		printf("-------HELP--------\n");
+		printf("Wywołanie programu: labirynt [parametry] nazwa_pliku_wejściowego\nOpcjonalne parametry wywołania:\n");
+		printf("     -f nazwa – zapisz wynik działania programu do pliku nazwa. Brak tego parametru spowoduje wypisanie wyniku na stdout.\n");
 		return 0;
 	}
 	
@@ -37,10 +39,10 @@ int main( int argc, char **argv){
 	int resultcheck = checkinput(inputFileName, &maze_str);
 	if(resultcheck == FILE_ACCEPTED_CONST){
 		//plik poprawny
-		printf("plik poprawny\n");
+		//printf("plik poprawny\n");
 		//odczytujemy z pliku dane o labiryncie
 		read(&maze_str);
-		printf("columns: %d, rows: %d\n", maze_str.columns, maze_str.rows);
+		//printf("columns: %d, rows: %d\n", maze_str.columns, maze_str.rows);
 		printf("begin: %d, end: %d\n", maze_str.begin, maze_str.end);
     		if (solve(&maze_str, &p) == 1){
 			printf("Brak ścieżki we wczytanym labiryncie\n");

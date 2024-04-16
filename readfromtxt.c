@@ -17,12 +17,12 @@ int checkinputTXT(maze* m){
 			charNumberInLine++;
 		}
 		if (temp != 'X' && temp != 'P' && temp != 'K' && temp != ' ' && temp != '\n'){
-			//plik zawiera nieobsługiwane symbole
+			printf("plik zawiera nieobsługiwane symbole\n");
 			return FILE_NOT_ACCEPTED_CONST;
 		}
 		if (temp == '\n' && line!=1){
 			if(charNumberInLine != charNumberInFirstLine){
-				//plik nie jest "kwadratowy"
+				printf("nieprawidłowe rozmieszczenie znaków\n");
 				return FILE_NOT_ACCEPTED_CONST;
 			}
 		}
@@ -55,10 +55,16 @@ void readTXT(maze* m){
 			lineNumber++;
 		}
 		if (temp == 'P'){
-			m->begin = ((lineNumber-1) / 2)*((charNumber-1)/ 2) + (actualCharNumber/2) +1;
+			if(lineNumber%2==0)
+				m->begin = ((lineNumber-1) / 2)*((charNumber-1)/ 2) + (actualCharNumber/2) + 1;
+			if(lineNumber%2==1)
+				m->begin = ((lineNumber-1) / 2)*((charNumber-1)/ 2) + (actualCharNumber/2);
 		}
 		if (temp == 'K'){
-			m->end = ((lineNumber-1) / 2)*((charNumber-1)/ 2) + (actualCharNumber/2);
+			if(lineNumber%2==0)
+				m->end = ((lineNumber-1) / 2)*((charNumber-1)/ 2) + (actualCharNumber/2);
+			if(lineNumber%2==1)
+				m->end = ((lineNumber-1) / 2)*((charNumber-1)/ 2) + (actualCharNumber/2) - m->columns;
 		}
 	}
 	m->rows = lineNumber / 2 - 1;
@@ -70,7 +76,7 @@ int checkpassageTXT(int node_number, int direction, maze* m){
 		case DIRECTION_LEFT:
 			fseek(input, node_byte(node_number, m)-1, SEEK_SET);
 			temp = fgetc(input);
-			if(temp == ' ' || temp == 'K' || temp == 'P'){
+			if(temp == ' '){
 				return PASSAGE_CONST;
 			}else{
 				return NOT_PASSAGE_CONST;
@@ -80,7 +86,7 @@ int checkpassageTXT(int node_number, int direction, maze* m){
 		case DIRECTION_TOP:
 			fseek(input, top_byte(node_number, m), SEEK_SET);
 			temp = fgetc(input);
-			if(temp == ' ' || temp == 'K' || temp == 'P'){
+			if(temp == ' ' ){
 				return PASSAGE_CONST;
 			}else{
 				return NOT_PASSAGE_CONST;
@@ -89,7 +95,7 @@ int checkpassageTXT(int node_number, int direction, maze* m){
 		case DIRECTION_RIGHT:
 			fseek(input, node_byte(node_number, m)+1, SEEK_SET);
 			temp = fgetc(input);
-			if(temp == ' ' || temp == 'K' || temp == 'P'){
+			if(temp == ' ' ){
 				return PASSAGE_CONST;
 			}else{
 				return NOT_PASSAGE_CONST;
@@ -99,7 +105,7 @@ int checkpassageTXT(int node_number, int direction, maze* m){
 		case DIRECTION_BOTTOM:
 			fseek(input, bottom_byte(node_number, m), SEEK_SET);
 			temp = fgetc(input);
-			if(temp == ' ' || temp == 'K' || temp == 'P'){
+			if(temp == ' '){
 				return PASSAGE_CONST;
 			}else{
 				return NOT_PASSAGE_CONST;
